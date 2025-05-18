@@ -1,36 +1,32 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ezprompt-vitrin
 
-## Getting Started
+**ezprompt-vitrin** est le site vitrine de **EzPrompt**, une application conçue pour faciliter la gestion et la présentation de prompts d’IA.
 
-First, run the development server:
+## Fonctionnalités
+
+- Organisation et gestion de prompts personnalisés
+- Interface utilisateur simple et intuitive
+- Exportation et importation de collections de prompts
+
+## Installation
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/votre-utilisateur/ezprompt-vitrin.git
+cd ezprompt-vitrin
+npm install
+npm start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Utilisation
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Lancez l’application.
+2. Ajoutez, modifiez ou supprimez vos prompts.
+3. Exportez ou importez vos collections selon vos besoins.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Contribution
 
-## Learn More
+Les contributions sont les bienvenues ! Veuillez ouvrir une issue ou une pull request.
 
-To learn more about Next.js, take a look at the following resources:
+## Licence
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+MIT
