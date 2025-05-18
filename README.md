@@ -11,7 +11,7 @@
 ## Installation
 
 ```bash
-git clone https://github.com/votre-utilisateur/ezprompt-vitrin.git
+git clone https://github.com/dimitrimabom/ezprompt-vitrin.git
 cd ezprompt-vitrin
 npm install
 npm start
