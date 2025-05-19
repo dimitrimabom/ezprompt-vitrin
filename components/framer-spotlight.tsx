@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 import { motion, useMotionValue, useSpring, animate } from "framer-motion";
 import { useTheme } from "next-themes";
 
@@ -13,45 +13,37 @@ export default function FramerSpotlight() {
   const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme === "dark";
 
-  // Motion values for the spotlight position with spring physics
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
-  // Add spring physics for smoother movement
   const springX = useSpring(mouseX, { damping: 20, stiffness: 300 });
   const springY = useSpring(mouseY, { damping: 20, stiffness: 300 });
 
-  // Define multiple spotlight colors
   const spotlightColors = [
-    { color: "rgba(36, 101, 237, 0.2)", darkColor: "rgba(36, 101, 237, 0.25)" }, // Blue (primary)
-    { color: "rgba(236, 72, 153, 0.15)", darkColor: "rgba(236, 72, 153, 0.2)" }, // Pink
-    { color: "rgba(16, 185, 129, 0.15)", darkColor: "rgba(16, 185, 129, 0.2)" }, // Green
+    { color: "rgba(36, 101, 237, 0.2)", darkColor: "rgba(36, 101, 237, 0.25)" },
+    { color: "rgba(236, 72, 153, 0.15)", darkColor: "rgba(236, 72, 153, 0.2)" },
+    { color: "rgba(16, 185, 129, 0.15)", darkColor: "rgba(16, 185, 129, 0.2)" },
   ];
 
-  // Update default position without causing re-renders
-  const updateDefaultPosition = () => {
+  const updateDefaultPosition = useCallback(() => {
     if (heroRef.current) {
       const heroRect = heroRef.current.getBoundingClientRect();
       const centerX = heroRect.left + heroRect.width / 2;
       const centerY = heroRect.top + heroRect.height / 3;
 
       defaultPositionRef.current = { x: centerX, y: centerY };
-
-      // Set initial position
       mouseX.set(centerX);
       mouseY.set(centerY);
     }
-  };
+  }, [mouseX, mouseY]);
 
-  // Handle mouse enter/leave for hero section
-  const handleMouseEnter = () => {
+  const handleMouseEnter = useCallback(() => {
     setIsMouseInHero(true);
-  };
+  }, []);
 
-  const handleMouseLeave = () => {
+  const handleMouseLeave = useCallback(() => {
     setIsMouseInHero(false);
 
-    // Animate back to default position
     animate(mouseX, defaultPositionRef.current.x, {
       duration: 1.2,
       ease: "easeInOut",
@@ -61,27 +53,24 @@ export default function FramerSpotlight() {
       duration: 1.2,
       ease: "easeInOut",
     });
-  };
+  }, [mouseX, mouseY]);
 
-  // Handle mouse movement only when inside hero
-  const handleMouseMove = (e: MouseEvent) => {
-    if (isMouseInHero) {
-      mouseX.set(e.clientX);
-      mouseY.set(e.clientY);
-    }
-  };
+  const handleMouseMove = useCallback(
+    (e: MouseEvent) => {
+      if (isMouseInHero) {
+        mouseX.set(e.clientX);
+        mouseY.set(e.clientY);
+      }
+    },
+    [isMouseInHero, mouseX, mouseY]
+  );
 
-  // Setup effect - runs once on mount and cleans up on unmount
   useEffect(() => {
     setIsMounted(true);
-
-    // Find the hero section element
     heroRef.current = document.getElementById("hero");
 
-    // Initial setup
     updateDefaultPosition();
 
-    // Event listeners
     window.addEventListener("resize", updateDefaultPosition);
     window.addEventListener("mousemove", handleMouseMove);
 
@@ -90,7 +79,6 @@ export default function FramerSpotlight() {
       heroRef.current.addEventListener("mouseleave", handleMouseLeave);
     }
 
-    // Cleanup
     return () => {
       window.removeEventListener("resize", updateDefaultPosition);
       window.removeEventListener("mousemove", handleMouseMove);
@@ -100,18 +88,14 @@ export default function FramerSpotlight() {
         heroRef.current.removeEventListener("mouseleave", handleMouseLeave);
       }
     };
-  }, [isMouseInHero]); // Only depend on isMouseInHero
+  }, [updateDefaultPosition, handleMouseMove, handleMouseEnter, handleMouseLeave]);
 
   if (!isMounted) {
     return null;
   }
 
   return (
-    <div
-      ref={containerRef}
-      className="absolute inset-0 overflow-hidden pointer-events-none"
-    >
-      {/* Primary spotlight that follows mouse/animation */}
+    <div ref={containerRef} className="absolute inset-0 overflow-hidden pointer-events-none">
       <motion.div
         className="absolute pointer-events-none"
         style={{
@@ -131,7 +115,6 @@ export default function FramerSpotlight() {
         transition={{ duration: 1 }}
       />
 
-      {/* Secondary spotlights with independent animations */}
       <motion.div
         className="absolute pointer-events-none"
         initial={{ opacity: 0 }}
@@ -182,7 +165,6 @@ export default function FramerSpotlight() {
         }}
       />
 
-      {/* Additional colored spotlights */}
       <motion.div
         className="absolute pointer-events-none"
         initial={{ opacity: 0 }}

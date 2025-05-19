@@ -27,60 +27,14 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import CssGridBackground from "@/components/css-grid-background";
 import FramerSpotlight from "@/components/framer-spotlight";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import Image from "next/image.js";
 
 const tabs = ["Features", "Use Cases", "How it works", "Testimonials", "FAQ"];
 
 export default function Home() {
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [hoverStyle, setHoverStyle] = useState({});
-  const [activeStyle, setActiveStyle] = useState({ left: "0px", width: "0px" });
-  const [isDarkMode, setIsDarkMode] = useState(false);
-  const tabRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-  useEffect(() => {
-    if (hoveredIndex !== null) {
-      const hoveredElement = tabRefs.current[hoveredIndex];
-      if (hoveredElement) {
-        const { offsetLeft, offsetWidth } = hoveredElement;
-        setHoverStyle({
-          left: `${offsetLeft}px`,
-          width: `${offsetWidth}px`,
-        });
-      }
-    }
-  }, [hoveredIndex]);
-
-  useEffect(() => {
-    const activeElement = tabRefs.current[activeIndex];
-    if (activeElement) {
-      const { offsetLeft, offsetWidth } = activeElement;
-      setActiveStyle({
-        left: `${offsetLeft}px`,
-        width: `${offsetWidth}px`,
-      });
-    }
-  }, [activeIndex]);
-
-  useEffect(() => {
-    requestAnimationFrame(() => {
-      const overviewElement = tabRefs.current[0];
-      if (overviewElement) {
-        const { offsetLeft, offsetWidth } = overviewElement;
-        setActiveStyle({
-          left: `${offsetLeft}px`,
-          width: `${offsetWidth}px`,
-        });
-      }
-    });
-  }, []);
-
-  const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
-    document.documentElement.classList.toggle("dark");
-  };
 
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground">
@@ -106,8 +60,6 @@ export default function Home() {
                     ? "text-[#0e0e10] dark:text-white"
                     : "text-[#0e0f1199] dark:text-[#ffffff99]"
                 }`}
-                onMouseEnter={() => setHoveredIndex(index)}
-                onMouseLeave={() => setHoveredIndex(null)}
                 onClick={() => setActiveIndex(index)}
               >
                 {tab}
@@ -239,7 +191,7 @@ export default function Home() {
         {/* Features Section */}
         <section
           id="features"
-          className="py-16 md:py-24 border-t border-border"
+          className="flex items-center justify-center flex-col py-16 md:py-24 border-t border-border"
         >
           <div className="container">
             <div className="mx-auto max-w-3xl text-center">
@@ -318,7 +270,7 @@ export default function Home() {
         {/* Use Cases Section */}
         <section
           id="use-cases"
-          className="py-16 md:py-24 border-t border-border bg-secondary/30"
+          className="flex items-center justify-center flex-col py-16 md:py-24 border-t border-border bg-secondary/30"
         >
           <div className="container">
             <div className="mx-auto max-w-3xl text-center">
@@ -518,7 +470,7 @@ export default function Home() {
         {/* How It Works */}
         <section
           id="how-it-works"
-          className="py-16 md:py-24 border-t border-border"
+          className="flex items-center justify-center flex-col py-16 md:py-24 border-t border-border"
         >
           <div className="container">
             <div className="mx-auto max-w-3xl text-center">
@@ -567,7 +519,7 @@ export default function Home() {
         {/* Testimonials Section */}
         <section
           id="testimonials"
-          className="py-16 md:py-24 border-t border-border bg-secondary/30"
+          className="flex items-center justify-center flex-col py-16 md:py-24 border-t border-border bg-secondary/30"
         >
           <div className="container">
             <div className="mx-auto max-w-3xl text-center">
@@ -593,9 +545,9 @@ export default function Home() {
                   </div>
                 </div>
                 <p className="text-muted-foreground">
-                  "Ezprompt has saved me hours of repetitive work. I use it
+                  Ezprompt has saved me hours of repetitive work. I use it
                   daily for code reviews and debugging sessions with AI
-                  assistants."
+                  assistants.
                 </p>
               </div>
 
@@ -612,9 +564,7 @@ export default function Home() {
                   </div>
                 </div>
                 <p className="text-muted-foreground">
-                  "The template system is brilliant. I've created a library of
-                  prompts that help me maintain consistency across all my
-                  projects."
+                  {"The template system is brilliant. I've created a library of prompts that help me maintain consistency across all my projects."}
                 </p>
               </div>
 
@@ -631,8 +581,7 @@ export default function Home() {
                   </div>
                 </div>
                 <p className="text-muted-foreground">
-                  "Our entire team uses Ezprompt to standardize how we interact
-                  with AI tools. It's become an essential part of our workflow."
+                  {" Our entire team uses Ezprompt to standardize how we interact with AI tools. It's become an essential part of our workflow."}
                 </p>
               </div>
             </div>
@@ -642,7 +591,7 @@ export default function Home() {
         {/* Waitlist Section */}
         <section
           id="waitlist"
-          className="py-16 md:py-24 border-t border-border"
+          className="flex items-center justify-center flex-col py-16 md:py-24 border-t border-border"
         >
           <div className="container">
             <div className="mx-auto max-w-3xl rounded-lg border border-border bg-gradient-to-br from-primary/10 to-chart-4/10 p-8 text-center backdrop-blur-sm md:p-12">
@@ -680,7 +629,7 @@ export default function Home() {
         {/* FAQ Section */}
         <section
           id="faq"
-          className="py-16 md:py-24 border-t border-border bg-secondary/30"
+          className="flex items-center justify-center flex-col py-16 md:py-24 border-t border-border bg-secondary/30"
         >
           <div className="container">
             <div className="mx-auto max-w-3xl text-center">
@@ -718,10 +667,7 @@ export default function Home() {
                 <AccordionItem value="item-3">
                   <AccordionTrigger>Is Ezprompt free to use?</AccordionTrigger>
                   <AccordionContent>
-                    Ezprompt will have a free tier that allows you to create and
-                    use a limited number of templates. We'll also offer a Pro
-                    plan with additional features like team sharing, unlimited
-                    templates, and advanced organization options.
+                    {" Ezprompt will have a free tier that allows you to create and use a limited number of templates. We'll also offer a Pro plan with additional features like team sharing, unlimited templates, and advanced organization options. "}
                   </AccordionContent>
                 </AccordionItem>
 
@@ -742,9 +688,7 @@ export default function Home() {
                     When will Ezprompt be available?
                   </AccordionTrigger>
                   <AccordionContent>
-                    We're currently in development and plan to launch soon. Join
-                    our waitlist to be notified when we launch and to get early
-                    access to the platform.
+                    {" We're currently in development and plan to launch soon. Join our waitlist to be notified when we launch and to get early access to the platform. "}
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>
@@ -753,7 +697,7 @@ export default function Home() {
         </section>
 
         {/* Team Section */}
-        {/* <section className="py-16 md:py-24 border-t border-border bg-secondary/30">
+        {/* <section className="flex items-center justify-center flex-col py-16 md:py-24 border-t border-border bg-secondary/30">
           <div className="container">
             <div className="mx-auto max-w-3xl text-center">
               <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">
@@ -845,7 +789,7 @@ export default function Home() {
         {/* CTA Section with Email Collection */}
       </main>
 
-      <footer className="border-t border-border py-12">
+      <footer className="flex items-center justify-center flex-col border-t border-border py-12">
         <div className="container">
           <div className="flex justify-center items-center max-w-7xl mx-auto">
             <div className="space-y-4 flex justify-center items-center flex-col">
